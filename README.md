@@ -1,6 +1,6 @@
 # cdk-blocks
 
-CDK building blocks for [up-platform](https://github.com/updeploy/up-platform) — one deployable infrastructure block per entry, consumed **at pinned tags**.
+CDK building blocks for [up-platform](https://github.com/up-deploy/up-platform) — one deployable infrastructure block per entry, consumed **at pinned tags**.
 
 ## How consumption works
 
@@ -39,4 +39,4 @@ npm run synth:static-website -- -c instance=demo -c env=dev   # full synth, no A
 
 ## Releasing
 
-Merge to `main` via PR, then tag: `git tag v0.x.y && git push origin v0.x.y`. The platform adopts the release only when its catalog pin is updated (see [the catalog](https://github.com/updeploy/up-platform/tree/main/catalog)).
+Merge to `main` via PR, then tag: `git tag v0.x.y && git push origin v0.x.y`. The platform adopts the release only when its catalog pin is updated (see [the catalog](https://github.com/up-deploy/up-platform/tree/main/catalog)).
