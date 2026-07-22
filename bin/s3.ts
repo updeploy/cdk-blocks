@@ -2,7 +2,6 @@
 import * as cdk from "aws-cdk-lib";
 import { S3BucketStack } from "../blocks/s3/s3-stack";
 
-
 const ACCOUNT_PATTERN = /^\d{12}$/;
 const app = new cdk.App();
 
@@ -28,8 +27,19 @@ if (!account || !ACCOUNT_PATTERN.test(account)) {
   );  
 }
 
-
 new S3BucketStack(app, "S3", { 
   env: { account, region }, companyId, appId, environment, cfg
 });
 
+cdk.Tags.of(app).add("upp:managed", "true");
+cdk.Tags.of(app).add("upp:appId", appId);
+cdk.Tags.of(app).add("upp:env", environment);
+cdk.Tags.of(app).add("upp:block", "s3");
+cdk.Tags.of(app).add("upp:block", "s3");
+cdk.Tags.of(app).add("upp:ref", "s3");
+
+const tags = JSON.parse(app.node.tryGetContext("tags") ?? "{}");
+
+for (const [key, value] of Object.entries(tags)) {
+  cdk.Tags.of(app).add(key, String(value));
+}
