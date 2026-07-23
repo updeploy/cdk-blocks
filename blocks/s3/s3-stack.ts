@@ -30,11 +30,7 @@ export class S3BucketStack extends Stack {
 
     // Class-3 exception, not a config option. Acknowledged on the bucket rather than the
     // stack so a future resource added here does not silently inherit the exemption.
-    Validations.of(this.bucket).acknowledge({
-      id: "AwsSolutions-S1",
-      reason: "No log destination exists until the central logging bucket lands in "
-            + "roadmap B1. The bucket is private, SSL-only and encrypted. Revisit when B1 ships.",
-    });
+
 
 
     new CfnOutput(this, "BucketName", {
