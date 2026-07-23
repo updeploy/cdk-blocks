@@ -18,7 +18,6 @@ export const S3ConfigSchema = z
 
 export type S3Config = z.infer<typeof S3ConfigSchema>;
 
-
 export interface S3BucketStackProps extends StackProps {
   readonly appId: string
   readonly environment: string
@@ -27,14 +26,12 @@ export interface S3BucketStackProps extends StackProps {
 }
 
 
-
 export class S3BucketStack extends Stack {
   public readonly bucket: s3.Bucket;
   constructor(scope: Construct, id: string, props: S3BucketStackProps) {
     super(scope, id, props);
 
     const bucketName = props.companyId + "-s3-" + props.appId + "-" + props.environment + "-01"
-
     const logBucket = props.cfg.logBucket
       ? s3.Bucket.fromBucketName(this, "LogBucket", props.cfg.logBucket)
       : undefined;
