@@ -51,4 +51,18 @@ cdk.Aspects.of(app).add(new RequiredTagsAspect(companyId), {
   priority: cdk.AspectPriority.READONLY,
 });
 
-cdk.Validations.of(app).addPlugins(new AwsSolutionsChecks(app, { verbose: true }));
+// The compliance gate. `writeSuppressionsToCloudFormation` copies every acknowledgement
+// and its reason into the template's resource Metadata, so an auditor can read the
+// exceptions straight out of AWS with GetTemplate instead of needing the source repo.
+const nagPack = new AwsSolutionsChecks(app, {
+  verbose: true,
+  writeSuppressionsToCloudFormation: true,
+});
+cdk.Validations.of(app).addPlugins(nagPack);
+
+// A clean run is otherwise SILENT: cdk-nag writes `pluginReports: []` when nothing is
+// violated, which is byte-identical to never having registered it. This line is the only
+// positive evidence that the control actually executed. stderr, so it survives --quiet.
+console.error(
+  `compliance: pack=${nagPack.name} cdk-nag=${require("cdk-nag/package.json").version}`
+);
